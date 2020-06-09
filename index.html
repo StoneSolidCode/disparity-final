@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
     <script src="leaflet.customsearchbox.min.js"></script>
+    <link href="searchbox.min.css" rel="stylesheet">
     <style>
 
         html, body, #map { width: 100%; height: 100%; margin: 0; background: #fff; }
@@ -117,9 +118,26 @@
         attribution: 'State Boundaries &copy; National Weather Service | Law Enforment Data &copy; NACJD | Made By Stone Kaech'
     }).addTo(mymap);
 
+    var donate = L.control({position: 'bottomright'});
+
+    donate.onAdd = function () {
+
+    // Create Div Element and Populate it with HTML
+    var div = L.DomUtil.create('div', 'legend');
+    div.innerHTML += '<b>Support Financially or Otherwise</b><br />';
+    div.innerHTML += '<a href="https://secure.actblue.com/donate/">NAACP</a><br/>';
+    div.innerHTML += '<a href="https://blacklivesseattle.org/bail-fund/">BLM Seattle Bail Fund</a>';
+    return div;
+    };
+
+    // 11. Add a legend to map
+    donate.addTo(mymap);
+
 
     // 9. Create Leaflet Control Object for Legend
-    var legend = L.control({position: 'topright'});
+    var legend = L.control({position: 'bottomleft'});
+
+    
 
     // 10. Function that runs when legend is added to map
     legend.onAdd = function () {
@@ -140,7 +158,7 @@
     legend.addTo(mymap);
 
     // 12. Add a scale bar to map
-    L.control.scale({position: 'bottomleft'}).addTo(mymap);
+    L.control.scale({position: 'topright'}).addTo(mymap);
 
     // LEFT FILTERING ELEMENT
     // var searchboxControl = createSearchboxControl();
