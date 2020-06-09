@@ -103,12 +103,16 @@
     counties = L.geoJson.ajax("assets/police_violence.geojson", {
         style: style,
         onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.NAME + "<br/>Population: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Population"]
+            layer.bindPopup("<b>" + feature.properties.NAME + "</b>"
             + "<br/><b>% State Disparity:</b> " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Disparity"]
-            + "<br/>African-american Alone: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_African-American Alone"]
             + "<br/>% Population African-American: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_% African-American"]
             + "<br/>% Victims Black: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_% Victims Black"]
-            + "<br/>% Black people killed: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_# Black people killed"]);
+            + "<br/>Population: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Population"]
+            + "<br/>African-american Alone: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_African-American Alone"]
+            + "<br/>Black people killed: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_# Black people killed"]
+            + "<br/><br/>Rate (Black people): " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Rate (Black People)"]
+            + "<br/>Rate (All people): " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Rate (All People)"]
+            + "<br/>Disparity in rate: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Disparity in Rate"]);
         },
         attribution: 'State Boundaries &copy; National Weather Service | Law Enforment Data &copy; NACJD | Made By Stone Kaech'
     }).addTo(mymap);
