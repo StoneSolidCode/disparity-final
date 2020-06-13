@@ -105,15 +105,15 @@
         style: style,
         onEachFeature: function (feature, layer) {
             layer.bindPopup("<b>" + feature.properties.NAME + "</b>"
-            + "<br/><b>% State Disparity:</b> " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Disparity"]
-            + "<br/>% Population African-American: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_% African-American"]
-            + "<br/>% Victims Black: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_% Victims Black"]
+            + "<br/><b>% State Disparity:</b> " + Math.floor(feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Disparity"]* 10000) / 100
+            + "<br/>% Population African-American: " + Math.floor(feature.properties["MPVDatasetDownload 2013-2019 Killings by State_% African-American"]* 10000) / 100
+            + "<br/>% Victims Black: " + Math.floor(feature.properties["MPVDatasetDownload 2013-2019 Killings by State_% Victims Black"]* 10000) / 100
             + "<br/>Population: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Population"]
             + "<br/>African-american Alone: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_African-American Alone"]
             + "<br/>Black people killed: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_# Black people killed"]
-            + "<br/><br/>Rate (Black people): " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Rate (Black People)"]
-            + "<br/>Rate (All people): " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Rate (All People)"]
-            + "<br/>Disparity in rate: " + feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Disparity in Rate"]);
+            + "<br/><br/>Rate (Black people): " + Math.floor(feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Rate (Black People)"]* 100) / 100
+            + "<br/>Rate (All people): " + Math.floor(feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Rate (All People)"]* 100) / 100
+            + "<br/>Disparity in rate: " + Math.floor(feature.properties["MPVDatasetDownload 2013-2019 Killings by State_Disparity in Rate"]* 100) / 100);
         },
         attribution: 'State Boundaries &copy; National Weather Service | Law Enforment Data &copy; NACJD | Made By Stone Kaech'
     }).addTo(mymap);
@@ -124,7 +124,15 @@
 
     // Create Div Element and Populate it with HTML
     var div = L.DomUtil.create('div', 'legend');
-    div.innerHTML += '<b>Support Financially or Otherwise</b><br />';
+    div.innerHTML += '<b>Police Violence Disparity</b><br />';
+    div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p>20%+</p>';
+    div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p>15-20%</p>';
+    div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p>8-15%</p>';
+    div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 1-8%</p>';
+    div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> -2%-1%</p>';
+    div.innerHTML += '<p><br /> Disparity = % pop. of African Americans - % of police killings with African American victims</p>';
+
+    div.innerHTML += '<br /><b>Support Financially or Otherwise</b><br />';
     div.innerHTML += '<a href="https://secure.actblue.com/donate/">NAACP</a><br/>';
     div.innerHTML += '<a href="https://blacklivesseattle.org/bail-fund/">BLM Seattle Bail Fund</a>';
     return div;
@@ -133,51 +141,27 @@
     // 11. Add a legend to map
     donate.addTo(mymap);
 
-
-    // 9. Create Leaflet Control Object for Legend
-    var legend = L.control({position: 'bottomleft'});
-
-
-
-    // 10. Function that runs when legend is added to map
-    legend.onAdd = function () {
-
-        // Create Div Element and Populate it with HTML
-        var div = L.DomUtil.create('div', 'legend');
-        div.innerHTML += '<b>Police Violence Disparity</b><br />';
-        div.innerHTML += '<i style="background: ' + colors[4] + '; opacity: 0.5"></i><p>20%+</p>';
-        div.innerHTML += '<i style="background: ' + colors[3] + '; opacity: 0.5"></i><p>15-20%</p>';
-        div.innerHTML += '<i style="background: ' + colors[2] + '; opacity: 0.5"></i><p>8-15%</p>';
-        div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 1-8%</p>';
-        div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> -2%-1%</p>';
-        div.innerHTML += '<p> <b>This map shows the disparity between the % population of African Americans and the percentage of police killings they make up. <br /><br /> Disparity = % pop. of African Americans - % of police killings with African American victims</b></p>';
-        return div;
-    };
-
-    // 11. Add a legend to map
-    legend.addTo(mymap);
-
     // 12. Add a scale bar to map
-    L.control.scale({position: 'topright'}).addTo(mymap);
+    L.control.scale({position: 'bottomleft'}).addTo(mymap);
 
     // LEFT FILTERING ELEMENT
-    // var searchboxControl = createSearchboxControl();
-    // var explore = new searchboxControl({
-    //     sidebarTitleText: "HELLO World",
-    //     sidebarMenuItems: {
-    //         Items: [
-    //             {
-    //                 type: "checkbox",
-    //                 name: "&ensp; GDP (Limited to country GPD levels)",
-    //                 value: "gdp",
-    //                 onclick: "activateSlider('gdp');",
-    //                 min: 1,
-    //                 max: 10
-    //             },
-    //         ]
-    //     }
-    // });
-    // mymap.addControl(explore);
+    var searchboxControl = createSearchboxControl();
+    var explore = new searchboxControl({
+        sidebarTitleText: "HELLO World",
+        sidebarMenuItems: {
+            Items: [
+                {
+                    type: "checkbox",
+                    name: "&ensp; GDP (Limited to country GPD levels)",
+                    value: "gdp",
+                    onclick: "activateSlider('gdp');",
+                    min: 1,
+                    max: 10
+                },
+            ]
+        }
+    });
+    mymap.addControl(explore);
 
 </script>
 </body>
